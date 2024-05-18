@@ -10,7 +10,7 @@ export const CartList = (props: {
   return (
     <ul>
       {cartItems.map((item) => (
-        <li key={item.id}>
+        <li key={item.eventId}>
           {item.cartId}
           <button onClick={() => onClick(item.id)}>+ </button>
         </li>

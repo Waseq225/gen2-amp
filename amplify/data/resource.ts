@@ -22,7 +22,8 @@ const schema = a.schema({
   Cart: a
     .model({
       cartId: a.id(),
-      eventId: a.belongsTo("Event", "eventId"),
+      eventId: a.string(),
+      event: a.belongsTo("Event", "eventId"),
       numberOfTickets: a.integer(),
       isCheckedOut: a.boolean()
     })
