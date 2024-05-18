@@ -22,19 +22,32 @@ export const EcUpdate = (props: { user: AuthUser | undefined }) => {
     });
   }, []);
 
-  function addToCart(id: string) {
-    console.log(id);
-    // client.models.Cart.create({eventId: id, numberOfTickets: 1, isCheckedOut: false});
+  function createTodo() {
+    client.models.Event.create({
+      content: window.prompt("Todo content"),
+      availableTickets: 10,
+    });
   }
 
-  //   function deleteCart(id: string) {
-  //     client.models.Cart.delete({ id });
-  //   }
+  function addToCart(id: string) {
+    console.log(id);
+    client.models.Cart.create({
+      eventId: id,
+      numberOfTickets: 1,
+      isCheckedOut: false,
+    });
+  }
+
+  function deleteCart(id: string | undefined | null) {
+    if (!id) return;
+    client.models.Cart.delete({ id });
+  }
 
   return (
     <main>
+      <button onClick={createTodo}>+ new</button>
       <EventListPage events={events} onClick={addToCart} />
-      {user && <CartList cartItems={cart} onClick={addToCart} />}
+      {user && <CartList cartItems={cart} onClick={deleteCart} />}
     </main>
   );
 };
