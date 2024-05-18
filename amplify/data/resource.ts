@@ -17,7 +17,7 @@ const schema = a.schema({
       eventId: a.id(),
       content: a.string(),
       availableTickets: a.integer(),
-      carts: a.hasMany("Cart", "eventId")
+      carts: a.hasMany("Cart", "eventId").authorization(allow => [allow.owner()])
     })
     .authorization((allow) => [allow.publicApiKey()]),
   Cart: a
