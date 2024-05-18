@@ -14,7 +14,7 @@ export const EcUpdate = (props: { user: AuthUser | undefined }) => {
   const [cart, setCart] = useState<Array<Schema["Cart"]["type"]>>([]);
 
   useEffect(() => {
-    client.models.Event.observeQuery().subscribe({
+    client.models.Event.observeQuery({ authMode: "apiKey" }).subscribe({
       next: (data) => setEvents([...data.items]),
     });
     client.models.Cart.observeQuery().subscribe({
@@ -23,14 +23,16 @@ export const EcUpdate = (props: { user: AuthUser | undefined }) => {
   }, []);
 
   function createTodo() {
-    client.models.Event.create({
-      content: window.prompt("Todo content"),
-      availableTickets: 10,
-    });
+    client.models.Event.create(
+      {
+        content: window.prompt("Todo content"),
+        availableTickets: 10,
+      },
+      { authMode: "apiKey" }
+    ).then((y) => console.log(y));
   }
 
   function addToCart(id: string) {
-    console.log(id);
     client.models.Cart.create({
       eventId: id,
       numberOfTickets: 1,
@@ -40,7 +42,9 @@ export const EcUpdate = (props: { user: AuthUser | undefined }) => {
 
   function deleteCart(id: string | undefined | null) {
     if (!id) return;
-    client.models.Cart.delete({ id });
+    console.log("Im here 2", id);
+
+    client.models.Cart.delete({ id }).then((h) => console.log(h));
   }
 
   return (
