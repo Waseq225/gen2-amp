@@ -1,13 +1,13 @@
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import { Todo } from "./TodoList";
+import { EcUpdate } from "./EcUpdate";
 
 function App() {
   return (
     <Authenticator>
       {({ signOut, user }) => (
         <>
-          {user && <Todo user={user} />}
+          <EcUpdate user={user} />
           <button onClick={signOut}>Sign out</button>
         </>
       )}

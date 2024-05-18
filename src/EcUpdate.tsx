@@ -4,10 +4,12 @@ import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { EventListPage } from "./EventListPage";
 import { CartList } from "./Cart";
+import { AuthUser } from "aws-amplify/auth";
 
 const client = generateClient<Schema>();
 
-export const EcUpdate = () => {
+export const EcUpdate = (props: { user: AuthUser | undefined }) => {
+  const { user } = props;
   const [events, setEvents] = useState<Array<Schema["Event"]["type"]>>([]);
   const [cart, setCart] = useState<Array<Schema["Cart"]["type"]>>([]);
 
@@ -32,7 +34,7 @@ export const EcUpdate = () => {
   return (
     <main>
       <EventListPage events={events} onClick={addToCart} />
-      <CartList cartItems={cart} onClick={addToCart} />
+      {user && <CartList cartItems={cart} onClick={addToCart} />}
     </main>
   );
 };
